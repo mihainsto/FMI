@@ -1,4 +1,3 @@
-#FlipList
 add and multiply two sparse arrays
 using Singly Linked List
 
