@@ -1,35 +1,44 @@
 #include <iostream>
 #include "stack.h"
-
-void array_read(int &n, int v[])
+void stack_push(int a, stack *&st)
 {
-	std::cin >> n;
-	for (int i = 1; i <= n; i++)
-		std::cin >> v[i];
+	stack *aux = new stack;
+	aux->val = a;
+	if (st == NULL) aux->next = NULL;
+	else aux->next = st;
+	st = aux;
 }
-int check(int n, int v[])
+int stack_pop(stack *&st)
 {
-	stack *st;
-	st = NULL;
-	stack_push(v[1], st);
-	for(int i=2; i<=n; i++)
+	int x = st->val;
+	st = st->next;
+	return x;
+}
+int stack_peek(stack *st)
+{
+	if (st == NULL) return -1;
+	int x = st->val;
+	return x;
+}
+bool stack_empty(stack *st)
+{
+	if (st == NULL) return true;
+	return false;
+}
+void print(stack *st)
+{
+	while (!stack_empty(st))
+		std::cout << stack_pop(st) << " ";
+	std::cout << "\n";
+}
+int search(int a, stack *st)
+{
+	int distance = 0;
+	while (!stack_empty(st))
 	{
-		if (stack_peek(st) == v[i]) stack_pop(st);
-		else stack_push(v[i], st);
-		
+		int x = stack_pop(st);
+		if (x == a) return distance;
+		distance++;
 	}
-	if (stack_empty(st)) return 1;
-		return 0;
-}
-int main()
-{
-	int v[100], n;
-
-	array_read(n, v);
-	std::cout<<check(n, v);
-
-	
-	
-	system("pause");
-	return 0;
+	return -1;
 }
