@@ -68,10 +68,13 @@ void BStree_delete(B_search_treenode *temp, int x);
 void BStree_delete(B_search_treenode *prev, B_search_treenode *temp)
 {
 	int question;
-	if (temp->left == NULL && temp->right == NULL) question = 1;
+	if (temp->left != NULL && temp->right != NULL) question = 3; // has 2 children
 	else
-		if (temp->left == NULL || temp->right == NULL ) question = 2;
-			else question = 3;
+	if (temp->left == NULL && temp->right == NULL) question = 1; // is leaf 
+	else
+	if(temp == prev) question = 4; // is first node and has only a child
+	else
+	if (temp->left == NULL || temp->right == NULL) question = 2; // has only a child
 
 	switch (question)
 	{
@@ -93,6 +96,7 @@ void BStree_delete(B_search_treenode *prev, B_search_treenode *temp)
 			if (temp->right != NULL) prev->left = temp->right;
 			else prev->left = temp->left;
 
+
 		}
 		break;
 	case 3:
@@ -111,13 +115,27 @@ void BStree_delete(B_search_treenode *prev, B_search_treenode *temp)
 		BStree_delete(temp, x); 
 		temp->key = x; 
 		break;
+	case 4:
+		if (temp->right != NULL) temp = temp->right;
+		else
+		{
+			temp->key = temp->left->key;
+			temp->right = temp->left->right;
+			temp->left = temp->left->left;
+			
+		}
+		break;		
 	}
 }
 void BStree_delete(B_search_treenode *temp, int x)
 {
 	B_search_treenode *prev;
 	prev = temp;
-	if (temp->key == x) BStree_delete(temp, temp);
+	if (temp->key == x) 
+	{ 
+		BStree_delete(temp, temp); 
+		return; 
+	}
 	if (temp->key > x) temp = temp->left;
 	else
 		temp = temp->right;
@@ -136,7 +154,12 @@ void BStree_delete(B_search_treenode *temp, int x)
 			temp = temp->right;
 	}
 	
-}
+}//search a value and then calls the deletion function for that pointer
+bool BStree_exist(B_search_treenode *temp, int x)
+{
+	if (temp->right != NULL || temp->left != NULL) return 1;
+	return 0;
+}//0 - if we have only one node in the tree 
 void inorder(B_search_treenode *temp)
 {
 	if (!temp)
@@ -184,17 +207,19 @@ int main()
 
 	BStree_insert(tree, 20);
 	BStree_insert(tree, 5);
-	BStree_insert(tree, 7);
 	BStree_insert(tree, 25);
+	BStree_insert(tree, 7);
 	BStree_insert(tree, 24);
 	BStree_insert(tree, 30);
 	BStree_insert(tree, 29);
 	//inorder(tree);
 	//std::cout << "\n";
 	//preorder(tree);
-	//std::cout<<find_max(tree);
-	BStree_delete(tree,20);
-	DFS(tree);
+	
+	
+	//BStree_delete(tree,20);
+	
+	//DFS(tree);
 	system("pause");
 	return 0;
 }
