@@ -19,27 +19,26 @@ void BStree_insert(B_search_treenode *&tree, int x)
 	}
 	else
 	{
-		B_search_treenode *temp = tree;
-		while (1)
-		{
+	B_search_treenode *temp = tree;
+	while (1)
+	{
 			
 
-			if (temp->key > aux->key && temp->left == NULL)
-			{
-				temp->left = aux; break;
-			}
-			else
-				if (temp->key < aux->key && temp->right == NULL) 
-				{
-					temp->right = aux; break;
-				}
-
-				else
-					if (temp->key > aux->key) temp = temp->left;
-					else
-						temp = temp->right;
+	if (temp->key > aux->key && temp->left == NULL)
+	{
+		temp->left = aux; break;
+	}
+	else
+	if (temp->key < aux->key && temp->right == NULL) 
+	{
+		temp->right = aux; break;
+	}
+	else
+	if (temp->key > aux->key) temp = temp->left;
+	else
+	temp = temp->right;
 						
-		}
+	}
 	}
 }
 int BStree_search(B_search_treenode *temp, int x)
