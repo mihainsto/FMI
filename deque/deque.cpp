@@ -1,81 +1,103 @@
 #include <iostream>
 #include <windows.h>
-#include "deque.h"
-
-void deque_init(deque &q)
+#define yellowout SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+#define whiteout SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+struct dequenode
 {
-	q.first = q.last = q.mid = NULL;
-}
-void deque_add_front(deque &q, int x)
+	int val;
+	dequenode *next;
+	dequenode *prev;
+};
+void deque_front_add(dequenode *&first, dequenode *&last, int x)
 {
-	dequenode *aux = new dequenode;
-	aux->val = x; aux->next = NULL; aux->prev = NULL;
-
-	if(q.first == NULL && q.mid == NULL)
-	{
-		q.first = q.mid = aux;
-	}
-	else
-	if(q.first == NULL)
-	{
-		aux->next = q.mid;
-		q.first = aux;
-	}
-	else
-	{
-		aux->next = q.mid->next;
-		aux->prev = q.mid;
-		q.mid->next = aux;
-		q.mid = aux;
-	}
-}
-void deque_add_back(deque &q, int x)
-{
-	dequenode *aux = new dequenode();
-	aux->next = aux->prev = NULL;
+	dequenode *aux;
+	aux = new dequenode;
+	aux->next = NULL; aux->prev = NULL;
 	aux->val = x;
 
-	if(q.mid == NULL && q.last == NULL)
-	{
-		q.mid = q.last = aux;
+	if (first == NULL) first = last = aux;
+	else {
+		aux->next = first;
+		first->prev = aux;
 	}
-	else
-	if(q.last == NULL)
-	{ 
-		aux->prev = q.mid;
-		q.mid->next = aux;
-		q.last = aux;
-	}
-	else
-	{
-		aux->prev = q.mid;
-		aux->next = q.mid->next;
-		q.mid->next = aux;
-	}
-
+	first = aux;
 }
-int deque_pop_front(deque& q)
+void deque_print(dequenode *first)
+{
+	while (first != NULL)
+	{
+		std::cout << first->val << " ";
+		first = first->next;
+	}
+	std::cout << "\n";
+}
+void deque_back_add(dequenode *&first, dequenode *&last, int x)
+{
+	dequenode *aux;
+	aux = new dequenode;
+	aux->next = NULL; aux->prev = NULL;
+	aux->val = x;
+	if (first == NULL) first = last = aux;
+	else
+	{
+		last->next = aux;
+		aux->prev = last;
+	}
+	last = aux;
+}
+int deque_pop_front(dequenode *first)
 {
 	int x;
-	x = q.first->val;
-	q.first = q.first->next;
+	x = first->val;
+	first = first->next;
+	first->prev = NULL;
 	return x;
 }
-int deque_pop_back(deque &q)
+int deque_pop_back(dequenode *last)
 {
-	int x = q.last->val;
-	q.last = q.last->prev;
-	q.last->next = NULL;
+	int x;
+	x = last->val;
+	last = last->prev;
+	last->next = NULL;
 	return x;
+
 }
-void deque_print(deque q)
+int main()
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-	while(q.first!=NULL)
+	dequenode *first, *last;
+	first = last = NULL;
+	int step, x;
+	std::cout << "1 - front add\n2 - back add\n3 - front pop\n4 - back pop\n5 - print\n0 - exit\n";
+	std::cin >> step;
+	while (step)
 	{
-		std::cout << q.first->val<<" ";
-		q.first = q.first->next;
+		switch (step)
+		{
+		case 1:
+			std::cin >> x;
+			deque_front_add(first,last, x);
+			break;
+		case 2:
+			std::cin >> x;
+			deque_back_add(first,last, x);
+			break;
+		case 3:
+			yellowout
+				std::cout << deque_pop_front(first) << "\n";
+			whiteout
+				break;
+		case 4:
+			yellowout
+				std::cout << deque_pop_back(last) << "\n";
+			whiteout
+				break;
+		case 5:
+			deque_print(first);
+			break;
+		}
+		std::cin >> step;
 	}
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-	std::cout << "\n";
+
+	system("pause");
+	return 0;
 }
