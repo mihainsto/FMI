@@ -1,2 +1,2 @@
 # FMI
-All my coding from Faculty of Computer Science-University of Bucharest
+All my coding as a bachelor student of Computer science at Univeristy of Bucharest
