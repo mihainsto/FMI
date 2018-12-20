@@ -7,51 +7,71 @@ struct pqueue
 {
 	int pr;
 	int key;
-	
+	int subpr;
 };
-void heapify(pqueue heap[], int n)
+void qify(pqueue q[], int n)
 {
-	
-	while(heap[n/2].pr < heap[n].pr && n!=1)
+
+	while (q[n / 2].pr < q[n].pr && n != 1)
 	{
-		std::swap(heap[n / 2], heap[n]);
+		std::swap(q[n / 2], q[n]);
 		n = n / 2;
 	}
 }
-void heap_add(pqueue heap[], int &n, pqueue x)
+int nextsubpr(pqueue q[], int n, int pr)
 {
-	heap[++n] = x;
-	heapify(heap, n);
+	int k = 0;
+	for(int i=1;i<=n;i++)
+	{
+		if (q[i].pr == pr) k++;
+	}
+	return k;
 }
-void heap_print(pqueue heap[], int n)
+void q_add(pqueue q[], int &n, pqueue x)
 {
-	for (int i = 1; i <= n; i++) std::cout<<"( " << heap[i].pr<<" "<<heap[i].key<<" ) ";
+	
+	q[++n] = x;
+	int subpr = nextsubpr(q, n, x.pr);
+	q[n].subpr = subpr;
+	qify(q, n);
+}
+void q_print(pqueue q[], int n)
+{
+	for (int i = 1; i <= n; i++) std::cout << " ( " << q[i].key << " " << q[i].pr <<" "<<q[i].subpr<<" ) ";
 	std::cout << "\n";
 }
-pqueue heap_pop(pqueue heap[], int &n, int pr)
+pqueue q_pop(pqueue q[], int &n, int pr)
 {
-	int i;
-	for( i=1;i<=n;i++)
+	int i,minsubpr = INT_MAX;
+	for (i = 1; i <= n; i++)
 	{
-		if (heap[i].pr == pr) break;
+		if (q[i].pr == pr)
+		{
+			if (q[i].subpr < minsubpr) minsubpr = q[i].subpr;
+				
+		}
 	}
-	pqueue max = heap[i];
-	std::swap(heap[i], heap[n]);
+	for(i=1;i<=n;i++)
+	{
+		if (q[i].subpr == minsubpr) break;
+	}
+	pqueue max = q[i];
+	std::swap(q[i], q[n]);
 	n--;
 	i = 1;
-	while(1)
+	while (1)
 	{
 		pqueue son1, son2, maxson;
 		son1.pr = INT_MIN; son2.pr = INT_MIN;
-		if (2 * i <= n) son1 = heap[2 * i];
-		if (2 * i + 1 <= n) son2 = heap[2 * i + 1];
+		if (2 * i <= n) son1 = q[2 * i];
+		if (2 * i + 1 <= n) son2 = q[2 * i + 1];
 
-		int maxsonpr = INT_MIN, maxsoni;		
+		int maxsonpr = INT_MIN, maxsoni;
 		if (son2.pr >= maxsonpr) maxsonpr = son2.pr, maxson = son2;
 		if (son1.pr >= maxsonpr) maxsonpr = son1.pr, maxson = son1;
 		if (maxson.pr == son1.pr)  maxsoni = 2 * i;
 		else maxsoni = 2 * i + 1;
-		if (heap[i].pr < maxson.pr) std::swap(heap[i], heap[maxsoni]);
+		if (q[i].pr < maxson.pr) std::swap(q[i], q[maxsoni]);
 		else break;
 
 	}
@@ -61,32 +81,34 @@ pqueue heap_pop(pqueue heap[], int &n, int pr)
 
 int main()
 {
-	pqueue heap[100];
+	pqueue q[100];
 	int n;
 	n = 0;
 	pqueue val;
+	val.key = 10;
+	val.pr = 3;
+	q_add(q, n, val);
+	val.key = 5;
+	val.pr = 1;
+	q_add(q, n, val);
+	val.key = 2;
+	val.pr = 2;
+	q_add(q, n, val);
+	val.key = 7;
+	val.pr = 2;
+	q_add(q, n, val);
 	val.key = 15;
 	val.pr = 3;
-	heap_add(heap, n, val);
-	val.key = 4;
+	q_add(q, n, val);
+	val.key = 15;
 	val.pr = 3;
-	heap_add(heap, n, val);
-	val.key = 9;
-	val.pr = 2;
-	heap_add(heap, n, val);
-	val.key = 6;
-	val.pr = 1;
-	heap_add(heap, n, val);
-	val.key = 33;
-	val.pr = 2;
-	heap_add(heap, n, val);
-	//heap_sort(heap, n);
-	//heap_print(heap, n);
-	pqueue x = heap_pop(heap, n, 2);
-	//x = heap_pop(heap, n, 3);
-	//x = heap_pop(heap, n, 3);
-	std::cout << "( " << x.pr << " " << x.key << " ) \n";
-	heap_print(heap, n);
+	q_add(q, n, val);
+	q_print(q, n);
+	pqueue x = q_pop(q, n, 2);
+	//x = q_pop(q, n, 3);
+	//x = q_pop(q, n, 3);
+	//std::cout << "( " << x.pr << " " << x.key << " ) \n";
+	q_print(q, n);
 	system("pause");
 	return 0;
 }
