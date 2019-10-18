@@ -40,13 +40,19 @@ Node::~Node()
 
 Node* Node::removeNodes(Node* node, int value)
 {
-	auto delNode = findValue(node, value);
+	auto root = node;
+	while(root->parent != NULL)
+	{
+		root = root->parent;
+	}
+	auto delNode = findValue(root, value);
 	while(delNode != NULL)
 	{
-		node->removeNode(delNode);
-		delNode = findValue(node, value);
+		root->removeNode(delNode);
+		delNode = findValue(root, value);
 	}
-	return node;
+	
+	return root;
 }
 
 void Node::addValue(Node* root, int value)
