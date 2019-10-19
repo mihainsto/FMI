@@ -12,7 +12,7 @@ public:
 	~Node();
 	static Node* removeNodes(Node* node, int value);
 	static void addValue(Node* root,  int value);
-	const static void inorder(const Node* node);
+	static void  inorder(const Node* node);
 private:
 	static Node* minValueNode(Node* node);
 	static void removeValue(Node* node, int value);
@@ -248,7 +248,7 @@ Node* Node::minValueNode(Node* node)
 }
 
 
-const void Node::inorder(const Node* node)
+void  Node::inorder(const Node* node) 
 {
 	if (node != NULL)
 	{
