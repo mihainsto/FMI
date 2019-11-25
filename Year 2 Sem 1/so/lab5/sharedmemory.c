@@ -49,9 +49,9 @@ int main(int argc, char*argv[])
  
           while (atoi((char *)ptr) != 0)
           {
-         printf("%s", (char *)ptr);
-         ptr += sizeof(int);
-         if (atoi((char *)ptr) != 0)
+            printf("%s", (char *)ptr);
+            ptr += sizeof(int);
+            if (atoi((char *)ptr) != 0)
                     printf(", ");
           }
        
@@ -67,13 +67,13 @@ int main(int argc, char*argv[])
  
           while (value != 1)
           {
-         if (value % 2 == 0)
-            value /= 2;
-         else
-            value = value * 3 + 1;
+            if (value % 2 == 0)
+              value /= 2;
+            else
+              value = value * 3 + 1;
  
-         sprintf(ptr, "%d", value);
-         ptr += sizeof(value);
+            sprintf(ptr, "%d", value);
+            ptr += sizeof(value);
           }
           sprintf(ptr,"0");
           ptr += sizeof(value);
