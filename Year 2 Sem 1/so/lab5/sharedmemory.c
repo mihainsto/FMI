@@ -25,6 +25,7 @@ int main(int argc, char*argv[])
    shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
    ftruncate(shm_fd, SIZE);
    ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+   
    for (int i=0 ;i<argc;i++)
     {
  
@@ -56,7 +57,6 @@ int main(int argc, char*argv[])
           }
        
           printf("\n");
-          shm_unlink(name);
  
        }
        else if (pid == 0)   // child process
