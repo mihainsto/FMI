@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <unistd.h>
  
-available_resources = 5;
-int pthread_mutex_t mtx;
+int available_resources = 5;
+pthread_mutex_t mtx;
  
 int decrease_count(int count)
 {
