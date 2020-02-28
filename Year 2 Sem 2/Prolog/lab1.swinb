@@ -1,0 +1,75 @@
+<div class="notebook">
+
+<div class="nb-cell program" name="p1">
+father(eddard,sansa).
+father(eddard,jonsnow).
+mother(catelyn,sansa).
+mother(wylla,jonsnow).
+stark(eddard).
+stark(catelyn).
+stark(X) :- father(Y,X), stark(Y).
+</div>
+
+<div class="nb-cell program" name="p2">
+right(cersei, tywin).
+right(janos, cersei).
+right(tyrion, janos).
+right(pycele, tyrion).
+right(varys, pycele).
+right(baelish, varys).
+right(tywin, baelish).
+
+sitsRightof(X,Y) :- right(X,Y).
+sitsLeftOf(X,Y) :- right(Y,X).
+are_neighbors_of(X,Y,Z) :- sitsLeftOf(X,Z), sitsRightof(Y,Z).
+next_to_each_other(X,Y) :- sitsLeftOf(X,Y); sitsLeftOf(Y,X); sitsRightof(X,Y); sitsRightof(Y,X). 
+/* Doua scaune la dreapta lui cersei sitsRightof(X, cersei), sitsRightof(Y, X) */
+
+
+</div>
+
+<div class="nb-cell program" name="p3">
+%---------------------------------
+% Jon Snow and Daenerys Targaryen
+%---------------------------------
+
+male(rickardStark).
+male(eddardStark).
+male(brandonStark).
+male(benjenStark).
+male(robbStark).
+male(aerysTargaryen).
+male(rhaegarTargaryen).
+
+
+%---------------------------
+
+female(lyarraStark).
+female(catelynStark).
+female(lyannaStark).
+female(sansaStark).
+female(aryaStark).
+female(rhaellaTargaryen).
+female(eliaTargaryen).
+
+%------------------------
+
+related(lyarraStark, lyannaStark).
+related(lyarraStark, eddardStark).
+related(lyarraStark, brandonStark).
+related(lyarraStark, benjenStark).
+related(lyarraStark, eddardStark).
+
+related(rickardStark, lyannaStark).
+related(rickardStark, eddardStark).
+related(rickardStark, brandonStark).
+related(rickardStark, benjenStark).
+related(rickardStark, eddardStark).
+
+motherOf(X,Y) :- related(X,Y), female(X).
+fatherOf(X,Y) :- related(X,Y), male(X).
+
+
+</div>
+
+</div>
