@@ -1,0 +1,44 @@
+<div class="notebook">
+
+<div class="nb-cell program" name="p1">
+% distance between points
+distance((X,Y),(A,B),R) :- R is sqrt((A-X)**2 + (B-Y)**2).
+</div>
+
+<div class="nb-cell program" name="p2">
+% Fibonacci sequence
+fib(0,1).
+fib(1,1).
+fib(N, X) :- N&gt;1, N1 is N-1, N2 is N-2, fib(N1, X1), fib(N2,X2), X is X1 + X2.
+</div>
+
+<div class="nb-cell program" name="p3">
+% Fibonacci sequence more efficient
+% the number we search, N, N-1
+fibe(0,1,0).
+fibe(1,1,1).
+fibe(N,X,Y) :- N&gt;1, N1 is N-1, fibe(N1, Y, Z), X is Y+Z. % z is the N-2 number
+% the question asked to use only two parameters so we improvise
+fibe2(N,X) :- fibe(N,X,_).
+</div>
+
+<div class="nb-cell program" name="p4">
+% write N characters on a line
+line(0, _) :- nl. % write new line if N reaches 0
+% general case
+line(N, Char) :- N &gt; 0, write(Char), Pred is (N - 1), line(Pred, Char).
+
+square(_, 0, _).
+square(NOriginal, N, Char) :- N &gt; 0, line(NOriginal, Char), Pred is (N-1), square(NOriginal,Pred, Char).
+
+square2(N, Char) :- square(N, N, Char).
+</div>
+
+<div class="nb-cell program" name="p5">
+% verify if all the elements al 'a'
+all_a([]).
+% T is talil (all the elements other than the first one)
+all_a([a|T]) :- all_a(T). 
+</div>
+
+</div>
